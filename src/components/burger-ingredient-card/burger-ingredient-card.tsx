@@ -7,15 +7,16 @@ import styles from './burger-ingredient-card.module.css';
 type TBurgerIngredientCardProps = {
   amount?: number;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-} & Pick<TIngredient, 'name' | 'price' | 'image'>;
+  ingredient: TIngredient;
+};
 
 export const BurgerIngredientCard = ({
   amount,
-  image,
-  name,
-  price,
+  ingredient,
   onClick,
 }: TBurgerIngredientCardProps): React.JSX.Element => {
+  const { image, name, price } = ingredient;
+
   return (
     <div className={styles.card} onClick={onClick}>
       <img src={image} alt={name} className={styles.img} />

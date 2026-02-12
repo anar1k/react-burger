@@ -22,25 +22,27 @@ export const BurgerConstructor = ({
 }: TBurgerConstructorProps): React.JSX.Element => {
   const { visible, handleCloseModal, handleOpenModal } = useModal();
 
-  /* TODO: Взял просто пока 1й эл, раз только верстку надо */
-  const currentBun = ingredients[0];
+  const currentBun = ingredients.find(({ type }) => type === 'bun');
+  const ingredientsWithoutBuns = ingredients.filter(({ type }) => type !== 'bun');
 
   return (
     <>
       <section className={styles.burger_constructor}>
         <div className={styles.ingredients_wrapper}>
-          <div className="pl-8">
-            <ConstructorElement
-              isLocked
-              price={currentBun.price}
-              text={currentBun.name}
-              thumbnail={currentBun.image}
-              type="top"
-            />
-          </div>
+          {currentBun && (
+            <div className="pl-8">
+              <ConstructorElement
+                isLocked
+                price={currentBun.price}
+                text={currentBun.name + ' (верх)'}
+                thumbnail={currentBun.image}
+                type="top"
+              />
+            </div>
+          )}
 
           <div className={styles.ingredients_list + ' custom-scroll'}>
-            {ingredients.map((ingredientItem) => (
+            {ingredientsWithoutBuns.map((ingredientItem) => (
               <div key={ingredientItem._id} className={styles.ingredient_item}>
                 <DragIcon type="primary" className={styles.icon} />
 
@@ -53,15 +55,17 @@ export const BurgerConstructor = ({
             ))}
           </div>
 
-          <div className="pl-8">
-            <ConstructorElement
-              isLocked
-              price={currentBun.price}
-              text={currentBun.name}
-              thumbnail={currentBun.image}
-              type="bottom"
-            />
-          </div>
+          {currentBun && (
+            <div className="pl-8">
+              <ConstructorElement
+                isLocked
+                price={currentBun.price}
+                text={currentBun.name + ' (низ)'}
+                thumbnail={currentBun.image}
+                type="bottom"
+              />
+            </div>
+          )}
         </div>
 
         <div className={styles.order_wrapper}>

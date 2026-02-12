@@ -3,19 +3,15 @@ import type React from 'react';
 
 import styles from './ingredient-details.module.css';
 
-type IngredientDetailsProps = Pick<
-  TIngredient,
-  'image' | 'name' | 'calories' | 'proteins' | 'carbohydrates' | 'fat'
->;
+type IngredientDetailsProps = {
+  ingredient: TIngredient;
+};
 
 export const IngredientDetails = ({
-  name,
-  calories,
-  proteins,
-  carbohydrates,
-  fat,
-  image,
+  ingredient,
 }: IngredientDetailsProps): React.JSX.Element => {
+  const { name, calories, proteins, carbohydrates, fat, image } = ingredient;
+
   const energyValueList: {
     label: string;
     value: number;

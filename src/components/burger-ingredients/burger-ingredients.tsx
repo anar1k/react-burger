@@ -83,7 +83,7 @@ export const BurgerIngredients = ({
                 {items.map((ingredientItem) => (
                   <BurgerIngredientCard
                     key={ingredientItem._id}
-                    {...ingredientItem}
+                    ingredient={ingredientItem}
                     onClick={() => setSelectedIngredient(ingredientItem)}
                   />
                 ))}
@@ -95,7 +95,7 @@ export const BurgerIngredients = ({
 
       {selectedIngredient && (
         <Modal header="Детали ингредиента" onClose={() => setSelectedIngredient(null)}>
-          <IngredientDetails {...selectedIngredient} />
+          <IngredientDetails ingredient={selectedIngredient} />
         </Modal>
       )}
     </>
