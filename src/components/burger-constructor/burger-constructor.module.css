@@ -1,7 +1,38 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  gap: calc(var(--offset-base-size) * 10);
   width: 600px;
-  padding-bottom: 20px;
   color: var(--text-primary-color);
+}
+
+.ingredients_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+}
+
+.ingredients_list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+  max-height: var(--max-height-container);
+  overflow-y: auto;
+}
+
+.ingredient_item {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.order_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 10);
 }

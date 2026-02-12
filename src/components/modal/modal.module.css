@@ -1,0 +1,29 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}
+
+.modal_wrapper {
+  position: relative;
+  width: 720px;
+  height: fit-content;
+  background-color: rgb(28 28 33 / 100%);
+  border-radius: 20px;
+}
+
+.close_button {
+  position: absolute;
+  top: calc(var(--offset-base-size) * 15);
+  right: calc(var(--offset-base-size) * 10);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.modal_content {
+  width: 520px;
+  margin-inline: auto;
+  text-align: center;
+}

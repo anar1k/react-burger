@@ -13,3 +13,18 @@
   text-align: center;
   list-style-type: none;
 }
+
+.ingredients_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 10);
+  max-height: var(--max-height-container);
+  overflow-y: auto;
+}
+
+.burger_tab_content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: calc(var(--offset-base-size) * 6) calc(var(--offset-base-size) * 8);
+  padding: 0 calc(var(--offset-base-size) * 4);
+}

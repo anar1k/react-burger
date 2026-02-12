@@ -1,0 +1,11 @@
+.image {
+  width: 480px;
+  height: 240px;
+  object-fit: cover;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: calc(var(--offset-base-size) * 5);
+}

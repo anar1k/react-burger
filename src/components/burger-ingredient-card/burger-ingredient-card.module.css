@@ -1,0 +1,21 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 1);
+  text-align: center;
+  cursor: pointer;
+}
+
+.img {
+  width: 100%;
+  max-height: 120px;
+  padding-inline: calc(var(--offset-base-size) * 4);
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}
