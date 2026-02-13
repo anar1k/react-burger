@@ -1,3 +1,7 @@
+:root {
+  --max-height-container: 500px;
+}
+
 body {
   margin: 0;
 }
