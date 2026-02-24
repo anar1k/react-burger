@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { TIngredient } from '@/utils/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-type ISelectedIngredientState = {
+type TSelectedIngredientState = {
   ingredient: TIngredient | null;
 };
 
-const initialState: ISelectedIngredientState = {
+const initialState: TSelectedIngredientState = {
   ingredient: null,
 };
 

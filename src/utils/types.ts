@@ -13,6 +13,8 @@ export type TIngredient = {
   __v: number;
 };
 
+export type TIngredientWithUniqueId = TIngredient & { uniqueId: string };
+
 export type TGetFetchSuccess<T> = {
   success: boolean;
   data: T;

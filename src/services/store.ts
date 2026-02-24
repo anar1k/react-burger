@@ -1,10 +1,16 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
+import { burgerSlice } from './burger/reducer';
 import { ingredientApi } from './ingredient/api';
 import { orderApi } from './order/api';
 import { selectedIngredientSlice } from './selectedIngredient/reducer';
 
-const rootReducer = combineSlices(ingredientApi, selectedIngredientSlice, orderApi);
+const rootReducer = combineSlices(
+  ingredientApi,
+  selectedIngredientSlice,
+  orderApi,
+  burgerSlice
+);
 
 export const store = configureStore({
   reducer: rootReducer,

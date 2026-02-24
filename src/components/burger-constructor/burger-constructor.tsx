@@ -1,4 +1,5 @@
-import { useGetIngredientsQuery } from '@/services/ingredient/api';
+import { getBurgerBun, getBurgerIngredients } from '@/services/burger/selectors';
+import { useAppSelector } from '@/services/hooks';
 import { useCreateOrderMutation } from '@/services/order/api';
 import { getErrorMessage } from '@/utils/helpers/getErrorMessage';
 import {
@@ -17,6 +18,8 @@ import styles from './burger-constructor.module.css';
 export const BurgerConstructor = (): React.JSX.Element => {
   const [lastOrder, setLastOrder] = useState<number | null>(null);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
+  const burgerBun = useAppSelector(getBurgerBun);
+  const burgerIngredients = useAppSelector(getBurgerIngredients);
 
   const handleOrder = useCallback(() => {
     createOrder({
@@ -39,50 +42,50 @@ export const BurgerConstructor = (): React.JSX.Element => {
     setLastOrder(null);
   }, []);
 
-  const { data: ingredientsItems = [] } = useGetIngredientsQuery();
-
-  const currentBun = useMemo(
-    () => ingredientsItems.find(({ type }) => type === 'bun'),
-    [ingredientsItems]
-  );
-
-  const ingredientsWithoutBuns = useMemo(
-    () => ingredientsItems.filter(({ type }) => type !== 'bun'),
-    [ingredientsItems]
-  );
-
   const totalPrice = useMemo(() => {
-    const bunPrice = currentBun?.price ?? 0;
-    const ingredientsPrice = ingredientsWithoutBuns.reduce(
+    const bunPrice = burgerBun?.price ?? 0;
+    const ingredientsPrice = burgerIngredients.reduce(
       (sum, item) => sum + item.price,
       0
     );
-    return bunPrice * 2 + ingredientsPrice;
-  }, [currentBun, ingredientsWithoutBuns]);
+    return bunPrice + ingredientsPrice;
+  }, [burgerBun, burgerIngredients]);
 
   const renderBun = useCallback(
     (position: 'top' | 'bottom', label: string): React.JSX.Element | null => {
-      if (!currentBun) return null;
+      if (!burgerBun)
+        return (
+          <div className="pl-8">
+            <div className={'constructor-element constructor-element_pos_' + position}>
+              Выберите булки
+            </div>
+          </div>
+        );
 
       return (
         <div className="pl-8">
           <ConstructorElement
             isLocked
-            price={currentBun.price}
-            text={`${currentBun.name} (${label})`}
-            thumbnail={currentBun.image}
+            price={burgerBun.price}
+            text={`${burgerBun.name} (${label})`}
+            thumbnail={burgerBun.image}
             type={position}
           />
         </div>
       );
     },
-    [currentBun]
+    [burgerBun]
   );
 
   const renderIngredientsList = useMemo(() => {
-    if (ingredientsWithoutBuns.length === 0) return <div>Добавьте ингредиенты</div>;
+    if (!burgerIngredients.length)
+      return (
+        <div className="pl-8">
+          <div className="constructor-element">Выберите начинку</div>
+        </div>
+      );
 
-    return ingredientsWithoutBuns.map((ingredientItem) => (
+    return burgerIngredients.map((ingredientItem) => (
       <div key={ingredientItem._id} className={styles.ingredient_item}>
         <DragIcon type="primary" className={styles.icon} />
         <ConstructorElement
@@ -92,7 +95,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
         />
       </div>
     ));
-  }, [ingredientsWithoutBuns]);
+  }, [burgerIngredients]);
 
   return (
     <>
@@ -118,7 +121,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
             onClick={() => handleOrder()}
             size="large"
             type="primary"
-            disabled={isLoading || !currentBun}
+            disabled={isLoading || !burgerBun}
           >
             {isLoading ? 'Оформление...' : 'Оформить заказ'}
           </Button>
