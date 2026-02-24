@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import type { TGetFetchSuccess, TIngredient } from '@/utils/types';
 
-export const ingredientsApi = createApi({
-  reducerPath: 'ingredientsApi',
+export const ingredientApi = createApi({
+  reducerPath: 'ingredientApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     headers: DEFAULT_HEADERS,
@@ -19,4 +19,4 @@ export const ingredientsApi = createApi({
   }),
 });
 
-export const { useGetIngredientsQuery } = ingredientsApi;
+export const { useGetIngredientsQuery } = ingredientApi;

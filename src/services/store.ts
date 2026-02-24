@@ -1,14 +1,15 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
-import { ingredientsApi } from './ingredients/api';
+import { ingredientApi } from './ingredient/api';
+import { orderApi } from './order/api';
 import { selectedIngredientSlice } from './selectedIngredient/reducer';
 
-const rootReducer = combineSlices(ingredientsApi, selectedIngredientSlice);
+const rootReducer = combineSlices(ingredientApi, selectedIngredientSlice, orderApi);
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(ingredientsApi.middleware),
+    getDefaultMiddleware().concat(ingredientApi.middleware, orderApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

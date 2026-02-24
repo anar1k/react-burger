@@ -1,4 +1,4 @@
-import { useGetIngredientsQuery } from '@/services/ingredients/api';
+import { useGetIngredientsQuery } from '@/services/ingredient/api';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef, useEffect, useMemo } from 'react';
 
@@ -23,13 +23,13 @@ import {
   setSelectedIngredient,
   clearSelectedIngredient,
 } from '@/services/selectedIngredient/reducer';
-import { getSelectedIngredient } from '@/services/selectedIngredient/selectors';
+import { isIngredientSelected } from '@/services/selectedIngredient/selectors';
 
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
-  const selectedIngredient = useAppSelector(getSelectedIngredient);
+  const _isIngredientSelected = useAppSelector(isIngredientSelected);
   const { data: ingredientsItems = [] } = useGetIngredientsQuery();
 
   const groupedIngredients = useMemo(() => {
@@ -140,12 +140,12 @@ export const BurgerIngredients = (): React.JSX.Element => {
         </div>
       </section>
 
-      {selectedIngredient && (
+      {_isIngredientSelected && (
         <Modal
           header="Детали ингредиента"
           onClose={() => dispatch(clearSelectedIngredient())}
         >
-          <IngredientDetails ingredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
     </>

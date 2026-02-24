@@ -1,4 +1,4 @@
-import { useGetIngredientsQuery } from '@/services/ingredients/api';
+import { useGetIngredientsQuery } from '@/services/ingredient/api';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 
 import { AppHeader } from '../app-header/app-header';
