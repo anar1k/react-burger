@@ -1,5 +1,7 @@
 import { useGetIngredientsQuery } from '@/services/ingredient/api';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { AppHeader } from '../app-header/app-header';
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
@@ -23,8 +25,10 @@ export const App = (): React.JSX.Element => {
             Соберите бургер
           </h1>
           <main className={`${styles.main} pl-5 pr-5`}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DndProvider>
           </main>
         </>
       )}

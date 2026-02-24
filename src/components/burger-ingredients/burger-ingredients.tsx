@@ -18,6 +18,7 @@ const TABS: TabsIngredients = [
   { value: 'sauce', label: 'Соусы' },
 ];
 
+import { getIngredientsCount } from '@/services/burger/selectors';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   setSelectedIngredient,
@@ -31,6 +32,8 @@ export const BurgerIngredients = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
   const _isIngredientSelected = useAppSelector(isIngredientSelected);
   const { data: ingredientsItems = [] } = useGetIngredientsQuery();
+
+  const ingredientsCount = useAppSelector(getIngredientsCount);
 
   const groupedIngredients = useMemo(() => {
     return ingredientsItems.reduce((acc, item) => {
@@ -131,6 +134,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
                   <BurgerIngredientCard
                     key={ingredientItem._id}
                     ingredient={ingredientItem}
+                    amount={ingredientsCount[ingredientItem._id]}
                     onClick={() => dispatch(setSelectedIngredient(ingredientItem))}
                   />
                 ))}
