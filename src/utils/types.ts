@@ -12,3 +12,8 @@ export type TIngredient = {
   image_mobile: string;
   __v: number;
 };
+
+export type TGetFetchSuccess<T> = {
+  success: boolean;
+  data: T;
+};

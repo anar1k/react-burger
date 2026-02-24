@@ -1,45 +1,54 @@
 import { useModal } from '@/hooks/useModal';
+import { useGetIngredientsQuery } from '@/services/ingredients/api';
 import {
   Button,
   ConstructorElement,
   CurrencyIcon,
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { useMemo } from 'react';
 
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 
-import type { TIngredient } from '@utils/types';
-
 import styles from './burger-constructor.module.css';
 
-type TBurgerConstructorProps = {
-  ingredients: TIngredient[];
-};
+export const BurgerConstructor = (): React.JSX.Element => {
+  const { data: ingredientsItems = [] } = useGetIngredientsQuery();
 
-export const BurgerConstructor = ({
-  ingredients,
-}: TBurgerConstructorProps): React.JSX.Element => {
   const { visible, handleCloseModal, handleOpenModal } = useModal();
 
-  const currentBun = ingredients.find(({ type }) => type === 'bun');
-  const ingredientsWithoutBuns = ingredients.filter(({ type }) => type !== 'bun');
+  const currentBun = useMemo(
+    () => ingredientsItems.find(({ type }) => type === 'bun'),
+    [ingredientsItems]
+  );
+
+  const ingredientsWithoutBuns = useMemo(
+    () => ingredientsItems.filter(({ type }) => type !== 'bun'),
+    [ingredientsItems]
+  );
+
+  const renderBun = (
+    position: 'top' | 'bottom',
+    label: string
+  ): React.JSX.Element | undefined =>
+    currentBun && (
+      <div className="pl-8">
+        <ConstructorElement
+          isLocked
+          price={currentBun.price}
+          text={`${currentBun.name} (${label})`}
+          thumbnail={currentBun.image}
+          type={position}
+        />
+      </div>
+    );
 
   return (
     <>
       <section className={styles.burger_constructor}>
         <div className={styles.ingredients_wrapper}>
-          {currentBun && (
-            <div className="pl-8">
-              <ConstructorElement
-                isLocked
-                price={currentBun.price}
-                text={currentBun.name + ' (верх)'}
-                thumbnail={currentBun.image}
-                type="top"
-              />
-            </div>
-          )}
+          {renderBun('top', 'верх')}
 
           <div className={styles.ingredients_list + ' custom-scroll'}>
             {ingredientsWithoutBuns.map((ingredientItem) => (
@@ -55,17 +64,7 @@ export const BurgerConstructor = ({
             ))}
           </div>
 
-          {currentBun && (
-            <div className="pl-8">
-              <ConstructorElement
-                isLocked
-                price={currentBun.price}
-                text={currentBun.name + ' (низ)'}
-                thumbnail={currentBun.image}
-                type="bottom"
-              />
-            </div>
-          )}
+          {renderBun('bottom', 'низ')}
         </div>
 
         <div className={styles.order_wrapper}>

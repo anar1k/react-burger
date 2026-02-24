@@ -1,32 +1,16 @@
-import { fetchIngredients } from '@/utils/api/ingredients';
+import { useGetIngredientsQuery } from '@/services/ingredients/api';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
 
 import { AppHeader } from '../app-header/app-header';
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 
-import type { TIngredient } from '@/utils/types';
-
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const [ingredients, setIngredients] = useState<TIngredient[]>([]);
-  const [loadingApp, setLoadingApp] = useState<boolean>(true);
+  const { isLoading: loadingApp, error: errorApp } = useGetIngredientsQuery();
 
-  useEffect(() => {
-    fetchIngredients()
-      .then((data) => {
-        setIngredients(data ?? []);
-      })
-      .catch(() => {
-        setIngredients([]);
-        console.log('Не удалось получить ингридиенты');
-      })
-      .finally(() => {
-        setLoadingApp(false);
-      });
-  }, []);
+  if (errorApp) return <h2>{'Ошибка'}</h2>;
 
   return (
     <div className={styles.app}>
@@ -39,8 +23,8 @@ export const App = (): React.JSX.Element => {
             Соберите бургер
           </h1>
           <main className={`${styles.main} pl-5 pr-5`}>
-            <BurgerIngredients ingredients={ingredients} />
-            <BurgerConstructor ingredients={ingredients} />
+            <BurgerIngredients />
+            <BurgerConstructor />
           </main>
         </>
       )}

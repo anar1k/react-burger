@@ -1,6 +1,5 @@
+import { API_BASE_URL } from '../api';
 import { getErrorMessage } from './getErrorMessage';
-
-const API_BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
 
 type ApiResponse<T = unknown> = {
   data: T;
