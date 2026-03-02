@@ -16,6 +16,8 @@ export const burgerSlice = createSlice({
   name: 'burger',
   initialState,
   reducers: {
+    resetBurger: () => initialState,
+
     setBun: (state, action: PayloadAction<TIngredient>) => {
       state.bun = action.payload;
     },
@@ -51,5 +53,10 @@ export const burgerSlice = createSlice({
   },
 });
 
-export const { addIngredient, removeIngredient, setBun, reorderIngredients } =
-  burgerSlice.actions;
+export const {
+  addIngredient,
+  removeIngredient,
+  setBun,
+  reorderIngredients,
+  resetBurger,
+} = burgerSlice.actions;

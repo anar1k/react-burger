@@ -3,6 +3,7 @@ import {
   setBun,
   removeIngredient,
   reorderIngredients,
+  resetBurger,
 } from '@/services/burger/reducer';
 import { getBurgerBun, getBurgerIngredients } from '@/services/burger/selectors';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
@@ -13,10 +14,12 @@ import {
   ConstructorElement,
   CurrencyIcon,
   DragIcon,
+  Preloader,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
+import { ModalOverlay } from '../modal-overlay/modal-overlay';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 
@@ -73,6 +76,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
     createOrder({ ingredients: orderIngredients })
       .unwrap()
       .then(({ order }) => {
+        dispatch(resetBurger());
         setLastOrder(order.number);
       })
       .catch((error) => {
@@ -183,6 +187,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   return (
     <>
+      {isLoading && (
+        <div className={styles.constructor_preloader}>
+          <Preloader />
+          <ModalOverlay />
+        </div>
+      )}
+
       <section className={styles.burger_constructor} ref={sectionDropRef}>
         <div className={styles.ingredients_wrapper}>
           {renderBun('top', 'верх')}
@@ -207,7 +218,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
             type="primary"
             disabled={isLoading || !burgerBun}
           >
-            {isLoading ? 'Оформление...' : 'Оформить заказ'}
+            Оформить заказ
           </Button>
         </div>
       </section>
