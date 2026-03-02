@@ -6,10 +6,15 @@
   color: var(--text-primary-color);
 }
 
+.constructor_preloader {
+  margin: auto;
+}
+
 .ingredients_wrapper {
   display: flex;
   flex-direction: column;
   gap: calc(var(--offset-base-size) * 4);
+  overflow: hidden;
 }
 
 .ingredients_list {

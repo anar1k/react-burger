@@ -12,3 +12,10 @@ export type TIngredient = {
   image_mobile: string;
   __v: number;
 };
+
+export type TIngredientWithUniqueId = TIngredient & { uniqueId: string };
+
+export type TGetFetchSuccess<T> = {
+  success: boolean;
+  data: T;
+};

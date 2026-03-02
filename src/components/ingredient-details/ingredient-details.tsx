@@ -1,16 +1,14 @@
-import type { TIngredient } from '@/utils/types';
+import { useAppSelector } from '@/services/hooks';
+import { getSelectedIngredient } from '@/services/selectedIngredient/selectors';
+
 import type React from 'react';
 
 import styles from './ingredient-details.module.css';
 
-type IngredientDetailsProps = {
-  ingredient: TIngredient;
-};
-
-export const IngredientDetails = ({
-  ingredient,
-}: IngredientDetailsProps): React.JSX.Element => {
-  const { name, calories, proteins, carbohydrates, fat, image } = ingredient;
+export const IngredientDetails = (): React.JSX.Element => {
+  const selectedIngredient = useAppSelector(getSelectedIngredient);
+  if (!selectedIngredient) return <div>Элемент не выбран</div>;
+  const { name, calories, proteins, carbohydrates, fat, image } = selectedIngredient;
 
   const energyValueList: {
     label: string;
