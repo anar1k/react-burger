@@ -6,18 +6,10 @@
   background-color: var(--background-alt);
 }
 
-.title {
-  width: 100%;
-  max-width: 1260px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
 .main {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 1240px;
   height: 100%;
-  height: 600px;
   margin: 0 auto;
 }
