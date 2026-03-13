@@ -47,3 +47,5 @@ export const BurgerIngredientCard = ({
     </div>
   );
 };
+
+export default BurgerIngredientCard;

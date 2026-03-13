@@ -2,7 +2,7 @@ import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ModalOverlay } from '../modal-overlay/modal-overlay';
+import { ModalOverlay } from '../modal-overlay';
 
 import styles from './modal.module.css';
 
@@ -45,3 +45,5 @@ export const Modal = ({ children, header, onClose }: ModalProps): React.JSX.Elem
     modalRoot
   );
 };
+
+export default Modal;

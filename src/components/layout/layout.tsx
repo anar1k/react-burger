@@ -16,3 +16,5 @@ export const Layout = (): React.JSX.Element => {
     </>
   );
 };
+
+export default Layout;

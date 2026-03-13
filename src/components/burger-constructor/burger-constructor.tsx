@@ -19,9 +19,9 @@ import {
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { ModalOverlay } from '../modal-overlay/modal-overlay';
+import { ModalOverlay } from '../modal-overlay';
 import { Modal } from '../modal/modal';
-import { OrderDetails } from '../order-details/order-details';
+import { OrderDetails } from '../order-details';
 
 import type { TIngredient, TIngredientWithUniqueId } from '@/utils/types';
 
@@ -231,3 +231,5 @@ export const BurgerConstructor = (): React.JSX.Element => {
     </>
   );
 };
+
+export default BurgerConstructor;

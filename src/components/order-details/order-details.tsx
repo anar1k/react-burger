@@ -24,3 +24,5 @@ export const OrderDetails = ({ currentOrder }: OrderDetailsProps): React.JSX.Ele
     </div>
   );
 };
+
+export default OrderDetails;

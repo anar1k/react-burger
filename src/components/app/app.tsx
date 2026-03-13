@@ -1,25 +1,25 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Home } from '@/pages/home';
+import { IngredientPage } from '@/pages/IngredientPage';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { Layout } from '@components/layout/layout';
-import { Home } from '@pages/home/Home';
-import { IngredientModal } from '@pages/IngredientModal';
-import { IngredientView } from '@pages/IngredientView';
+import { Layout } from '@components/layout';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    Component: Layout,
+    children: [
+      { index: true, Component: Home },
+      {
+        path: 'ingredients/:id',
+        Component: IngredientPage,
+      },
+    ],
+  },
+]);
 
 export const App = (): React.JSX.Element => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="ingredients/:id" element={<IngredientView />} />
-        </Route>
-      </Routes>
-
-      <Routes>
-        <Route path="ingredients/:id" element={<IngredientModal />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -33,3 +33,5 @@ export const AppHeader = (): React.JSX.Element => {
     </header>
   );
 };
+
+export default AppHeader;
