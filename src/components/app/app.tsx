@@ -1,5 +1,5 @@
 import { Home } from '@/pages/home';
-import { IngredientPage } from '@/pages/IngredientPage';
+import { IngredientPage } from '@/pages/ingredient';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { Layout } from '@components/layout';

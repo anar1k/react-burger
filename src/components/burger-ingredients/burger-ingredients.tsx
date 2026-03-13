@@ -1,16 +1,27 @@
+import { getIngredientsCount } from '@/services/burger/selectors';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useGetIngredientsQuery } from '@/services/ingredient/api';
+import {
+  setSelectedIngredient,
+  clearSelectedIngredient,
+} from '@/services/selectedIngredient/reducer';
+import { isIngredientSelected } from '@/services/selectedIngredient/selectors';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { BurgerIngredientCard } from '../burger-ingredient-card/burger-ingredient-card';
-import { IngredientDetails } from '../ingredient-details/ingredient-details';
-import { Modal } from '../modal/modal';
+import { BurgerIngredientCard } from '../burger-ingredient-card';
+import { IngredientDetails } from '../ingredient-details';
+import { Modal } from '../modal';
 
 import type {
   GroupedIngredients,
   TabIngredients,
   TabsIngredients,
 } from './burger-ingredients.types';
+import type { TIngredient } from '@/utils/types';
+
+import styles from './burger-ingredients.module.css';
 
 const TABS: TabsIngredients = [
   { value: 'bun', label: 'Булки' },
@@ -18,17 +29,9 @@ const TABS: TabsIngredients = [
   { value: 'sauce', label: 'Соусы' },
 ];
 
-import { getIngredientsCount } from '@/services/burger/selectors';
-import { useAppDispatch, useAppSelector } from '@/services/hooks';
-import {
-  setSelectedIngredient,
-  clearSelectedIngredient,
-} from '@/services/selectedIngredient/reducer';
-import { isIngredientSelected } from '@/services/selectedIngredient/selectors';
-
-import styles from './burger-ingredients.module.css';
-
 export const BurgerIngredients = (): React.JSX.Element => {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const _isIngredientSelected = useAppSelector(isIngredientSelected);
   const { data: ingredientsItems = [] } = useGetIngredientsQuery();
@@ -64,6 +67,11 @@ export const BurgerIngredients = (): React.JSX.Element => {
       behavior: 'smooth',
       block: 'start',
     });
+  };
+
+  const handleIngredientClick = (ingredient: TIngredient): void => {
+    dispatch(setSelectedIngredient(ingredient));
+    void navigate(`/ingredients/${ingredient._id}`);
   };
 
   // отслеживание скролла
@@ -135,7 +143,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
                     key={ingredientItem._id}
                     ingredient={ingredientItem}
                     amount={ingredientsCount[ingredientItem._id]}
-                    onClick={() => dispatch(setSelectedIngredient(ingredientItem))}
+                    onClick={() => handleIngredientClick(ingredientItem)}
                   />
                 ))}
               </div>
@@ -155,3 +163,5 @@ export const BurgerIngredients = (): React.JSX.Element => {
     </>
   );
 };
+
+export default BurgerIngredients;
