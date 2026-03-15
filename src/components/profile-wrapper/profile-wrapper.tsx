@@ -1,9 +1,12 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useLogoutMutation } from '@/services/auth/api';
+import { clearTokens, getRefreshToken } from '@/utils/api/auth-tokens';
+import { getErrorMessage } from '@/utils/helpers/getErrorMessage';
+import { NavLink, Outlet } from 'react-router-dom';
 
 import styles from './profile-wrapper.module.css';
 
 export const ProfileWrapper = (): React.JSX.Element => {
-  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
   const navigation = [
     {
       to: '/profile',
@@ -17,8 +20,16 @@ export const ProfileWrapper = (): React.JSX.Element => {
   ];
 
   const handleLogout = (): void => {
-    localStorage.removeItem('token');
-    void navigate('/login');
+    const token = getRefreshToken();
+    if (!token) return;
+    logout({ token })
+      .unwrap()
+      .then(() => {
+        clearTokens();
+      })
+      .catch((error: unknown) => {
+        console.error('Ошибка при выходе:', getErrorMessage(error, '502'));
+      });
   };
 
   return (
@@ -31,17 +42,14 @@ export const ProfileWrapper = (): React.JSX.Element => {
               to={item.to}
               end={item.end}
               className={({ isActive }) =>
-                `${styles.link} text text_type_main-large ${isActive ? styles.link_active : ''}`
+                `${styles.link} text_type_main-large ${isActive ? styles.link_active : ''}`
               }
             >
               {item.label}
             </NavLink>
           ))}
 
-          <div
-            className={`${styles.link} text text_type_main-large`}
-            onClick={handleLogout}
-          >
+          <div className={`${styles.link} text_type_main-large`} onClick={handleLogout}>
             Выход
           </div>
         </div>

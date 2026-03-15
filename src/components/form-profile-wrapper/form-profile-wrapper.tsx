@@ -14,7 +14,7 @@ type FormProfileWrapperProps = {
   }[];
   buttonText: string;
   title: string;
-  onSubmit?: () => void;
+  onSubmit: () => void;
 };
 
 export const FormProfileWrapper = ({
@@ -28,10 +28,17 @@ export const FormProfileWrapper = ({
     <div className={styles['form-profile-wrapper']}>
       <h1 className="text text_type_main-medium mb-6">{title}</h1>
 
-      <Form method="post" className={styles.form + ' mb-20'}>
+      <Form
+        method="post"
+        className={styles.form + ' mb-20'}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
         {children}
 
-        <Button htmlType="submit" size="large" type="primary" onClick={onSubmit}>
+        <Button htmlType="submit" size="large" type="primary">
           {buttonText}
         </Button>
       </Form>

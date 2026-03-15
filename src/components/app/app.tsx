@@ -1,3 +1,6 @@
+import { AuthChecker } from '@/components/auth-checker';
+import { GuestRoute } from '@/components/guest-route';
+import { ProtectedRoute } from '@/components/protected-route';
 import { FeedPage } from '@/pages/feed';
 import { ForgotPasswordPage } from '@/pages/forgot-password';
 import { HomePage } from '@/pages/home';
@@ -11,7 +14,6 @@ import { ResetPasswordPage } from '@/pages/reset-password';
 import { createBrowserRouter, type RouteObject, RouterProvider } from 'react-router-dom';
 
 import { Layout } from '@components/layout';
-import { ProfileWrapper } from '@components/profile-wrapper';
 
 const routes: RouteObject[] = [
   {
@@ -28,36 +30,31 @@ const routes: RouteObject[] = [
       },
       {
         path: 'login',
-        Component: LoginPage,
+        Component: GuestRoute,
+        children: [{ index: true, Component: LoginPage }],
       },
       {
         path: 'register',
-        Component: RegisterPage,
+        Component: GuestRoute,
+        children: [{ index: true, Component: RegisterPage }],
       },
       {
         path: 'forgot-password',
-        Component: ForgotPasswordPage,
+        Component: GuestRoute,
+        children: [{ index: true, Component: ForgotPasswordPage }],
       },
       {
         path: 'reset-password',
-        Component: ResetPasswordPage,
+        Component: GuestRoute,
+        children: [{ index: true, Component: ResetPasswordPage }],
       },
       {
         path: 'profile',
-        Component: ProfileWrapper,
+        Component: ProtectedRoute,
         children: [
-          {
-            index: true,
-            Component: ProfilePage,
-          },
-          {
-            path: 'orders',
-            Component: ProfileOrdersPage,
-          },
-          {
-            path: 'orders/:id',
-            Component: ProfileOrderPage,
-          },
+          { index: true, Component: ProfilePage },
+          { path: 'orders', Component: ProfileOrdersPage },
+          { path: 'orders/:id', Component: ProfileOrderPage },
         ],
       },
       {
@@ -75,7 +72,12 @@ const routes: RouteObject[] = [
 const router = createBrowserRouter(routes);
 
 export const App = (): React.JSX.Element => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <AuthChecker />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;
