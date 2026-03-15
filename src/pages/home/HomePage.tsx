@@ -8,7 +8,7 @@ import { BurgerIngredients } from '@components/burger-ingredients';
 
 import styles from './Home.module.css';
 
-export const Home = (): React.JSX.Element => {
+export const HomePage = (): React.JSX.Element => {
   const { isLoading: loadingApp, error: errorApp } = useGetIngredientsQuery();
 
   if (errorApp) return <h2>{'Ошибка'}</h2>;
@@ -33,4 +33,4 @@ export const Home = (): React.JSX.Element => {
   );
 };
 
-export default Home;
+export default HomePage;
