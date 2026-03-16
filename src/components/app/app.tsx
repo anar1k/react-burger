@@ -1,5 +1,5 @@
 import { AuthChecker } from '@/components/auth-checker';
-import { GuestRoute } from '@/components/guest-route';
+import { ProfileWrapper } from '@/components/profile-wrapper';
 import { ProtectedRoute } from '@/components/protected-route';
 import { FeedPage } from '@/pages/feed';
 import { ForgotPasswordPage } from '@/pages/forgot-password';
@@ -30,27 +30,31 @@ const routes: RouteObject[] = [
       },
       {
         path: 'login',
-        Component: GuestRoute,
+        element: <ProtectedRoute anonymous />,
         children: [{ index: true, Component: LoginPage }],
       },
       {
         path: 'register',
-        Component: GuestRoute,
+        element: <ProtectedRoute anonymous />,
         children: [{ index: true, Component: RegisterPage }],
       },
       {
         path: 'forgot-password',
-        Component: GuestRoute,
+        element: <ProtectedRoute anonymous />,
         children: [{ index: true, Component: ForgotPasswordPage }],
       },
       {
         path: 'reset-password',
-        Component: GuestRoute,
+        element: <ProtectedRoute anonymous />,
         children: [{ index: true, Component: ResetPasswordPage }],
       },
       {
         path: 'profile',
-        Component: ProtectedRoute,
+        element: (
+          <ProtectedRoute>
+            <ProfileWrapper />
+          </ProtectedRoute>
+        ),
         children: [
           { index: true, Component: ProfilePage },
           { path: 'orders', Component: ProfileOrdersPage },

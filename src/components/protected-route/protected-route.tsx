@@ -1,38 +1,33 @@
-import { ProfileWrapper } from '@/components/profile-wrapper';
-import { useGetCurrentUserQuery } from '@/services/user/api';
-import { clearTokens, getAccessToken } from '@/utils/api/auth-tokens';
-import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { getAccessToken } from '@/utils/api/auth-tokens';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-export const ProtectedRoute = (): React.JSX.Element | null => {
-  const navigate = useNavigate();
+import type React from 'react';
+
+type ProtectedRouteProps = {
+  children?: React.ReactNode;
+  anonymous?: boolean;
+};
+
+export const ProtectedRoute = ({
+  children,
+  anonymous = false,
+}: ProtectedRouteProps): React.JSX.Element => {
+  const isLoggedIn = Boolean(getAccessToken());
+
   const location = useLocation();
-  const token = getAccessToken();
-  const { data, isLoading, isError } = useGetCurrentUserQuery(undefined, {
-    skip: !token,
-  });
+  const from = (location.state as { from?: Location } | null)?.from ?? '/';
 
-  useEffect(() => {
-    if (!token) {
-      void navigate('/login', { state: { from: location }, replace: true });
-      return;
-    }
-    if (isError) {
-      clearTokens();
-      void navigate('/login', { state: { from: location }, replace: true });
-    }
-  }, [token, isError, navigate, location]);
-
-  if (!token || isError) {
-    return null;
-  }
-  if (isLoading || !data) {
-    return (
-      <div className="flex items-center justify-center p-20">
-        <p className="text text_type_main-default">Загрузка...</p>
-      </div>
-    );
+  if (anonymous && isLoggedIn) {
+    return <Navigate to={from} />;
   }
 
-  return <ProfileWrapper />;
+  if (!anonymous && !isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  if (children) {
+    return <>{children}</>;
+  }
+
+  return <Outlet />;
 };
