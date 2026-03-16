@@ -42,14 +42,14 @@ export const ProfileWrapper = (): React.JSX.Element => {
               to={item.to}
               end={item.end}
               className={({ isActive }) =>
-                `${styles.link} text_type_main-large ${isActive ? styles.link_active : ''}`
+                `${styles.link} text_type_main-medium ${isActive ? styles.link_active : ''}`
               }
             >
               {item.label}
             </NavLink>
           ))}
 
-          <div className={`${styles.link} text_type_main-large`} onClick={handleLogout}>
+          <div className={`${styles.link} text_type_main-medium`} onClick={handleLogout}>
             Выход
           </div>
         </div>

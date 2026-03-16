@@ -8,6 +8,7 @@ import {
 import { getBurgerBun, getBurgerIngredients } from '@/services/burger/selectors';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useCreateOrderMutation } from '@/services/order/api';
+import { getAccessToken } from '@/utils/api/auth-tokens';
 import { getErrorMessage } from '@/utils/helpers/getErrorMessage';
 import {
   Button,
@@ -18,6 +19,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ModalOverlay } from '../modal-overlay';
 import { Modal } from '../modal/modal';
@@ -29,10 +31,13 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [lastOrder, setLastOrder] = useState<number | null>(null);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
   const burgerBun = useAppSelector(getBurgerBun);
   const burgerIngredients = useAppSelector(getBurgerIngredients);
+  const token = getAccessToken();
 
   const sectionDropRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +71,10 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   const handleOrder = useCallback(() => {
     if (!burgerBun) return;
+    if (!token) {
+      void navigate('/login', { state: { from: location }, replace: true });
+      return;
+    }
 
     const orderIngredients = [
       burgerBun._id,
@@ -82,7 +91,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
       .catch((error) => {
         console.error('Ошибка при создании заказа:', getErrorMessage(error, '502'));
       });
-  }, [createOrder, burgerBun, burgerIngredients]);
+  }, [burgerBun, token, navigate, location, burgerIngredients, createOrder, dispatch]);
 
   const handleCloseModal = useCallback(() => {
     setLastOrder(null);
