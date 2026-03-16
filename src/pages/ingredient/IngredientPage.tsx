@@ -1,13 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useGetIngredientsQuery } from '@/services/ingredient/api';
-import {
-  setSelectedIngredient,
-  clearSelectedIngredient,
-} from '@/services/selectedIngredient/reducer';
+import { setSelectedIngredient } from '@/services/selectedIngredient/reducer';
 import { getSelectedIngredient } from '@/services/selectedIngredient/selectors';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { IngredientDetails } from '@components/ingredient-details';
 import { Modal } from '@components/modal';
@@ -15,6 +12,10 @@ import { Modal } from '@components/modal';
 export const IngredientPage = (): React.JSX.Element | null => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isNewPage = location.key === 'default';
+
   const dispatch = useAppDispatch();
   const selectedIngredient = useAppSelector(getSelectedIngredient);
   const { data: ingredients = [], isLoading } = useGetIngredientsQuery();
@@ -37,8 +38,11 @@ export const IngredientPage = (): React.JSX.Element | null => {
   }, [isLoading, id, ingredients.length, ingredient, navigate]);
 
   const handleClose = (): void => {
-    dispatch(clearSelectedIngredient());
-    void navigate('/');
+    if (!isNewPage) {
+      void navigate(-1);
+    } else {
+      void navigate('/');
+    }
   };
 
   if (!id) return null;

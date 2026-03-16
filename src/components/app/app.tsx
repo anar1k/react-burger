@@ -21,12 +21,14 @@ const routes: RouteObject[] = [
     Component: Layout,
     children: [
       {
-        index: true,
-        Component: HomePage as RouteObject['Component'],
-      },
-      {
-        path: 'ingredients/:id',
-        Component: IngredientPage,
+        path: '/',
+        Component: HomePage,
+        children: [
+          {
+            path: 'ingredients/:id',
+            Component: IngredientPage,
+          },
+        ],
       },
       {
         path: 'login',

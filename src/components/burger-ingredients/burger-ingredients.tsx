@@ -1,18 +1,12 @@
 import { getIngredientsCount } from '@/services/burger/selectors';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { useGetIngredientsQuery } from '@/services/ingredient/api';
-import {
-  setSelectedIngredient,
-  clearSelectedIngredient,
-} from '@/services/selectedIngredient/reducer';
-import { isIngredientSelected } from '@/services/selectedIngredient/selectors';
+import { setSelectedIngredient } from '@/services/selectedIngredient/reducer';
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { BurgerIngredientCard } from '../burger-ingredient-card';
-import { IngredientDetails } from '../ingredient-details';
-import { Modal } from '../modal';
 
 import type {
   GroupedIngredients,
@@ -33,7 +27,6 @@ export const BurgerIngredients = (): React.JSX.Element => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const _isIngredientSelected = useAppSelector(isIngredientSelected);
   const { data: ingredientsItems = [] } = useGetIngredientsQuery();
 
   const ingredientsCount = useAppSelector(getIngredientsCount);
@@ -151,15 +144,6 @@ export const BurgerIngredients = (): React.JSX.Element => {
           ))}
         </div>
       </section>
-
-      {_isIngredientSelected && (
-        <Modal
-          header="Детали ингредиента"
-          onClose={() => dispatch(clearSelectedIngredient())}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 };
