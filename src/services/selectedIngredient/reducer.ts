@@ -18,11 +18,7 @@ export const selectedIngredientSlice = createSlice({
     setSelectedIngredient: (state, action: PayloadAction<TIngredient>) => {
       state.ingredient = action.payload;
     },
-    clearSelectedIngredient: (state) => {
-      state.ingredient = null;
-    },
   },
 });
 
-export const { setSelectedIngredient, clearSelectedIngredient } =
-  selectedIngredientSlice.actions;
+export const { setSelectedIngredient } = selectedIngredientSlice.actions;

@@ -1,38 +1,88 @@
-import { useGetIngredientsQuery } from '@/services/ingredient/api';
-import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { AuthChecker } from '@/components/auth-checker';
+import { ProfileWrapper } from '@/components/profile-wrapper';
+import { ProtectedRoute } from '@/components/protected-route';
+import { FeedPage } from '@/pages/feed';
+import { ForgotPasswordPage } from '@/pages/forgot-password';
+import { HomePage } from '@/pages/home';
+import { IngredientPage } from '@/pages/ingredient';
+import { LoginPage } from '@/pages/login';
+import { ProfilePage } from '@/pages/profile';
+import { ProfileOrderPage } from '@/pages/profile-order';
+import { ProfileOrdersPage } from '@/pages/profile-orders';
+import { RegisterPage } from '@/pages/register';
+import { ResetPasswordPage } from '@/pages/reset-password';
+import { createBrowserRouter, type RouteObject, RouterProvider } from 'react-router-dom';
 
-import { AppHeader } from '../app-header/app-header';
-import { BurgerConstructor } from '../burger-constructor/burger-constructor';
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
+import { Layout } from '@components/layout';
 
-import styles from './app.module.css';
+const routes: RouteObject[] = [
+  {
+    path: '/',
+    Component: Layout,
+    children: [
+      {
+        path: '/',
+        Component: HomePage,
+        children: [
+          {
+            path: 'ingredients/:id',
+            Component: IngredientPage,
+          },
+        ],
+      },
+      {
+        path: 'login',
+        element: <ProtectedRoute anonymous />,
+        children: [{ index: true, Component: LoginPage }],
+      },
+      {
+        path: 'register',
+        element: <ProtectedRoute anonymous />,
+        children: [{ index: true, Component: RegisterPage }],
+      },
+      {
+        path: 'forgot-password',
+        element: <ProtectedRoute anonymous />,
+        children: [{ index: true, Component: ForgotPasswordPage }],
+      },
+      {
+        path: 'reset-password',
+        element: <ProtectedRoute anonymous />,
+        children: [{ index: true, Component: ResetPasswordPage }],
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <ProfileWrapper />
+          </ProtectedRoute>
+        ),
+        children: [
+          { index: true, Component: ProfilePage },
+          { path: 'orders', Component: ProfileOrdersPage },
+          { path: 'orders/:id', Component: ProfileOrderPage },
+        ],
+      },
+      {
+        path: 'feed',
+        Component: FeedPage,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <div>404</div>,
+  },
+];
+
+const router = createBrowserRouter(routes);
 
 export const App = (): React.JSX.Element => {
-  const { isLoading: loadingApp, error: errorApp } = useGetIngredientsQuery();
-
-  if (errorApp) return <h2>{'Ошибка'}</h2>;
-
   return (
-    <div className={styles.app}>
-      {loadingApp && <Preloader />}
-
-      {!loadingApp && (
-        <>
-          <AppHeader />
-          <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-            Соберите бургер
-          </h1>
-          <main className={`${styles.main} pl-5 pr-5`}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-          </main>
-        </>
-      )}
-    </div>
+    <>
+      <AuthChecker />
+      <RouterProvider router={router} />
+    </>
   );
 };
 

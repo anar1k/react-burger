@@ -1,5 +1,5 @@
-import { API_BASE_URL, DEFAULT_HEADERS } from '@/utils/api';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from '@/utils/api/base-query-with-auth';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
 type OrderResponse = {
   name: string;
@@ -15,10 +15,7 @@ type OrderRequest = {
 
 export const orderApi = createApi({
   reducerPath: 'orderApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_BASE_URL,
-    headers: DEFAULT_HEADERS,
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     createOrder: builder.mutation<OrderResponse, OrderRequest>({
       query: (orderData) => ({

@@ -1,0 +1,23 @@
+.profile-wrapper {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 15);
+  width: 100%;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  padding-right: 4px;
+  color: gray;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  padding-block: 10px;
+}
+
+.link_active {
+  color: white;
+}

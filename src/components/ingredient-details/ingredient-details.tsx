@@ -49,3 +49,5 @@ export const IngredientDetails = (): React.JSX.Element => {
     </div>
   );
 };
+
+export default IngredientDetails;
