@@ -1,11 +1,19 @@
 import { useLogoutMutation } from '@/services/auth/api';
 import { clearTokens, getRefreshToken } from '@/utils/api/auth-tokens';
 import { getErrorMessage } from '@/utils/helpers/getErrorMessage';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import styles from './profile-wrapper.module.css';
 
+function isProfileOrderDetailPage(pathname: string): boolean {
+  return /^\/profile\/orders\/[^/]+$/.test(pathname);
+}
+
 export const ProfileWrapper = (): React.JSX.Element => {
+  const location = useLocation();
+  const isOrderDetail = isProfileOrderDetailPage(location.pathname);
+  const isOrdersSection =
+    location.pathname.startsWith('/profile/orders') && !isOrderDetail;
   const [logout] = useLogoutMutation();
   const navigation = [
     {
@@ -32,6 +40,14 @@ export const ProfileWrapper = (): React.JSX.Element => {
       });
   };
 
+  if (isOrderDetail) {
+    return (
+      <div className={`${styles['profile-order-detail']} mt-20`}>
+        <Outlet />
+      </div>
+    );
+  }
+
   return (
     <div className={`${styles['profile-wrapper']} mt-20`}>
       <div>
@@ -55,9 +71,15 @@ export const ProfileWrapper = (): React.JSX.Element => {
         </div>
 
         <div className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете
-          <br />
-          изменить свои персональные данные
+          {isOrdersSection ? (
+            'В этом разделе вы можете просмотреть свою историю заказов'
+          ) : (
+            <>
+              В этом разделе вы можете
+              <br />
+              изменить свои персональные данные
+            </>
+          )}
         </div>
       </div>
 

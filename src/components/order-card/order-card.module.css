@@ -1,0 +1,109 @@
+.link {
+  display: block;
+  margin-bottom: 24px;
+  padding: 24px;
+  color: inherit;
+  text-decoration: none;
+  background: rgb(28 28 33 / 100%);
+  border-radius: 40px;
+  box-shadow:
+    0 24px 32px rgb(0 0 0 / 4%),
+    0 16px 24px rgb(0 0 0 / 4%),
+    0 4px 8px rgb(0 0 0 / 4%),
+    0 0 1px rgb(0 0 0 / 4%);
+}
+
+.link:hover {
+  color: inherit;
+}
+
+.link:last-child {
+  margin-bottom: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.number {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date {
+  color: var(--text-inactive-color);
+}
+
+.name {
+  margin-bottom: 8px;
+}
+
+.name_spacing_feed {
+  margin-bottom: 24px;
+}
+
+.status {
+  margin-bottom: 24px;
+}
+
+.status_done {
+  color: #00bfff;
+  text-shadow: 0 0 8px rgb(0 191 255 / 35%);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.iconWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  margin-right: -16px;
+  overflow: hidden;
+  background: rgb(19 19 22 / 100%);
+  border: 2px solid rgb(128 26 178 / 100%);
+  border-radius: 50%;
+}
+
+.iconWrap:last-child {
+  margin-right: 0;
+}
+
+.icon_more {
+  background: rgb(19 19 22 / 100%);
+}
+
+.more_text {
+  line-height: 1;
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
