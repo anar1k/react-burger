@@ -1,14 +1,14 @@
 import { AuthChecker } from '@/components/auth-checker';
 import { ProfileWrapper } from '@/components/profile-wrapper';
 import { ProtectedRoute } from '@/components/protected-route';
-import { FeedPage } from '@/pages/feed';
+import { FeedLayout, FeedListPage, FeedOrderPage } from '@/pages/feed';
 import { ForgotPasswordPage } from '@/pages/forgot-password';
 import { HomePage } from '@/pages/home';
 import { IngredientPage } from '@/pages/ingredient';
 import { LoginPage } from '@/pages/login';
 import { ProfilePage } from '@/pages/profile';
 import { ProfileOrderPage } from '@/pages/profile-order';
-import { ProfileOrdersPage } from '@/pages/profile-orders';
+import { ProfileOrdersLayout, ProfileOrdersListPage } from '@/pages/profile-orders';
 import { RegisterPage } from '@/pages/register';
 import { ResetPasswordPage } from '@/pages/reset-password';
 import { createBrowserRouter, type RouteObject, RouterProvider } from 'react-router-dom';
@@ -59,13 +59,29 @@ const routes: RouteObject[] = [
         ),
         children: [
           { index: true, Component: ProfilePage },
-          { path: 'orders', Component: ProfileOrdersPage },
-          { path: 'orders/:id', Component: ProfileOrderPage },
+          {
+            path: 'orders',
+            Component: ProfileOrdersLayout,
+            children: [
+              {
+                path: '',
+                Component: ProfileOrdersListPage,
+                children: [{ path: ':id', Component: ProfileOrderPage }],
+              },
+            ],
+          },
         ],
       },
       {
         path: 'feed',
-        Component: FeedPage,
+        Component: FeedLayout,
+        children: [
+          {
+            path: '',
+            Component: FeedListPage,
+            children: [{ path: ':id', Component: FeedOrderPage }],
+          },
+        ],
       },
     ],
   },

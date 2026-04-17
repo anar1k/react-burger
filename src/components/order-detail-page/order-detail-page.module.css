@@ -1,0 +1,35 @@
+.root {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 0 40px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--text-inactive-color);
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--text-primary-color);
+}
+
+.card {
+  padding: 0 24px 32px;
+  background: rgb(28 28 33 / 100%);
+  border-radius: 40px;
+  box-shadow:
+    0 24px 32px rgb(0 0 0 / 4%),
+    0 16px 24px rgb(0 0 0 / 4%),
+    0 4px 8px rgb(0 0 0 / 4%),
+    0 0 1px rgb(0 0 0 / 4%);
+}
