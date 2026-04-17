@@ -5,15 +5,9 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import styles from './profile-wrapper.module.css';
 
-function isProfileOrderDetailPage(pathname: string): boolean {
-  return /^\/profile\/orders\/[^/]+$/.test(pathname);
-}
-
 export const ProfileWrapper = (): React.JSX.Element => {
   const location = useLocation();
-  const isOrderDetail = isProfileOrderDetailPage(location.pathname);
-  const isOrdersSection =
-    location.pathname.startsWith('/profile/orders') && !isOrderDetail;
+  const isOrdersSection = location.pathname.startsWith('/profile/orders');
   const [logout] = useLogoutMutation();
   const navigation = [
     {
@@ -39,14 +33,6 @@ export const ProfileWrapper = (): React.JSX.Element => {
         console.error('Ошибка при выходе:', getErrorMessage(error, '502'));
       });
   };
-
-  if (isOrderDetail) {
-    return (
-      <div className={`${styles['profile-order-detail']} mt-20`}>
-        <Outlet />
-      </div>
-    );
-  }
 
   return (
     <div className={`${styles['profile-wrapper']} mt-20`}>

@@ -2,6 +2,7 @@ import { OrderCard } from '@/components/order-card';
 import { useSubscribeAllOrdersFeedQuery } from '@/services/order/api';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useMemo } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import type { TOrder } from '@/utils/types';
 
@@ -150,6 +151,8 @@ export const FeedListPage = (): React.JSX.Element => {
           </div>
         </aside>
       </div>
+
+      <Outlet />
     </>
   );
 };

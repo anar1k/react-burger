@@ -9,6 +9,7 @@ export const FeedOrderPage = (): React.JSX.Element => {
       knownOrders={knownOrders}
       backPath="/feed"
       backLabel="← К ленте заказов"
+      modal
     />
   );
 };

@@ -9,6 +9,7 @@ export const ProfileOrderPage = (): React.JSX.Element => {
       knownOrders={knownOrders}
       backPath="/profile/orders"
       backLabel="← К истории заказов"
+      modal
     />
   );
 };

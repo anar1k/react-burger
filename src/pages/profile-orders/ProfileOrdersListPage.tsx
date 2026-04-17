@@ -1,6 +1,7 @@
 import { OrderCard } from '@/components/order-card';
 import { useSubscribeUserOrdersFeedQuery } from '@/services/order/api';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { Outlet } from 'react-router-dom';
 
 import styles from './ProfileOrders.module.css';
 
@@ -23,6 +24,7 @@ export const ProfileOrdersListPage = (): React.JSX.Element => {
           />
         ))
       )}
+      <Outlet />
     </div>
   );
 };

@@ -63,8 +63,11 @@ const routes: RouteObject[] = [
             path: 'orders',
             Component: ProfileOrdersLayout,
             children: [
-              { index: true, Component: ProfileOrdersListPage },
-              { path: ':id', Component: ProfileOrderPage },
+              {
+                path: '',
+                Component: ProfileOrdersListPage,
+                children: [{ path: ':id', Component: ProfileOrderPage }],
+              },
             ],
           },
         ],
@@ -73,8 +76,11 @@ const routes: RouteObject[] = [
         path: 'feed',
         Component: FeedLayout,
         children: [
-          { index: true, Component: FeedListPage },
-          { path: ':id', Component: FeedOrderPage },
+          {
+            path: '',
+            Component: FeedListPage,
+            children: [{ path: ':id', Component: FeedOrderPage }],
+          },
         ],
       },
     ],
