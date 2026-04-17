@@ -72,7 +72,9 @@ export const OrderInfo = ({ order }: OrderInfoProps): React.JSX.Element => {
         </div>
       </div>
 
-      <div className={`text text_type_main-medium ${styles.composition_title}`}>Состав:</div>
+      <div className={`text text_type_main-medium ${styles.composition_title}`}>
+        Состав:
+      </div>
 
       <ul className={`${styles.rows} custom-scroll`}>
         {rows.map(({ ingId, count }) => {
@@ -81,7 +83,9 @@ export const OrderInfo = ({ order }: OrderInfoProps): React.JSX.Element => {
           return (
             <li key={ingId} className={styles.row}>
               <img className={styles.thumb} src={ing.image} alt={ing.name} />
-              <span className={`text text_type_main-default ${styles.row_name}`}>{ing.name}</span>
+              <span className={`text text_type_main-default ${styles.row_name}`}>
+                {ing.name}
+              </span>
               <span className={`text text_type_digits-default ${styles.row_price}`}>
                 {`${count} x ${ing.price}`}
                 <CurrencyIcon type="primary" />

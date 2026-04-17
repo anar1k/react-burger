@@ -26,9 +26,7 @@ type OrderCardProps = {
   showStatus?: boolean;
 };
 
-type PreviewItem =
-  | { kind: 'ingredient'; id: string }
-  | { kind: 'more'; count: number };
+type PreviewItem = { kind: 'ingredient'; id: string } | { kind: 'more'; count: number };
 
 export const OrderCard = ({
   order,

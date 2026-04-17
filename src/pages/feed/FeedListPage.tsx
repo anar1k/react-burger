@@ -1,8 +1,9 @@
 import { OrderCard } from '@/components/order-card';
 import { useSubscribeAllOrdersFeedQuery } from '@/services/order/api';
-import type { TOrder } from '@/utils/types';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useMemo } from 'react';
+
+import type { TOrder } from '@/utils/types';
 
 import styles from './Feed.module.css';
 

@@ -1,9 +1,11 @@
-import { OrderInfo } from '@components/order-info';
-import { useResolvedOrder } from '@hooks/use-resolved-order';
-import type { TOrder } from '@/utils/types';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+
+import { OrderInfo } from '@components/order-info';
+import { useResolvedOrder } from '@hooks/use-resolved-order';
+
+import type { TOrder } from '@/utils/types';
 
 import styles from './order-detail-page.module.css';
 
