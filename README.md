@@ -1,4 +1,19 @@
+# Прод: https://anar1k.github.io/react-burger/
+
 # Стартер на TypeScript и только для проекта Stellar Burger
+
+
+## E2E-тесты (Playwright)
+
+Перед первым запуском E2E установите браузеры Playwright:
+`npm run e2e:install`
+
+Запуск E2E-тестов:
+`npm run e2e`
+
+При необходимости изменить URL для E2E используйте переменную окружения:
+- Git Bash: `PLAYWRIGHT_BASE_URL=http://localhost:4173 npm run e2e`
+- PowerShell: `$env:PLAYWRIGHT_BASE_URL='http://localhost:4173'; npm run e2e`
 
 ## Процедура создания коммита с проверками
 
