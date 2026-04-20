@@ -2,12 +2,12 @@ import { createSlice, nanoid, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { TIngredient, TIngredientWithUniqueId } from '@/utils/types';
 
-type IBurgerState = {
+export type IBurgerState = {
   bun: TIngredient | null;
   ingredients: TIngredientWithUniqueId[];
 };
 
-const initialState: IBurgerState = {
+export const initialState: IBurgerState = {
   bun: null,
   ingredients: [],
 };

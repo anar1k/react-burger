@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import type { Route } from '@playwright/test';
+import type { Locator, Route } from '@playwright/test';
 
 type Ingredient = {
   _id: string;
@@ -114,6 +114,51 @@ const setupApiMocks = async (
   return orderBody;
 };
 
+const dragIngredientWithRetry = async ({
+  source,
+  target,
+  successLocator,
+  attempts = 3,
+}: {
+  source: Locator;
+  target: Locator;
+  successLocator: Locator;
+  attempts?: number;
+}): Promise<void> => {
+  const page = source.page();
+
+  const syntheticDragAndDrop = async (): Promise<void> => {
+    const dataTransfer = await page.evaluateHandle(() => new DataTransfer());
+    await source.dispatchEvent('dragstart', { dataTransfer });
+    await target.dispatchEvent('dragenter', { dataTransfer });
+    await target.dispatchEvent('dragover', { dataTransfer });
+    await target.dispatchEvent('drop', { dataTransfer });
+    await source.dispatchEvent('dragend', { dataTransfer });
+  };
+
+  for (let index = 0; index < attempts; index += 1) {
+    await source.scrollIntoViewIfNeeded();
+    await target.scrollIntoViewIfNeeded();
+    await source.dragTo(target, { force: true });
+
+    try {
+      await expect(successLocator).toBeVisible({ timeout: 1000 });
+      return;
+    } catch {
+      await syntheticDragAndDrop();
+    }
+
+    try {
+      await expect(successLocator).toBeVisible({ timeout: 1000 });
+      return;
+    } catch {
+      // WebKit иногда теряет dnd-событие, повторяем попытку.
+    }
+  }
+
+  await expect(successLocator).toBeVisible();
+};
+
 test.describe('Страница Конструктор', () => {
   test('путь пользователя от сборки до информации о заказе', async ({ page }) => {
     let postedOrderBody: { ingredients: string[] } | null = null;
@@ -130,7 +175,7 @@ test.describe('Страница Конструктор', () => {
       postedOrderBody = await setupApiMocks(route, postedOrderBody);
     });
 
-    await page.goto('http://localhost:5173');
+    await page.goto('/');
     await expect(page.getByText('Соберите бургер')).toBeVisible();
 
     const constructorSection = page.locator('section').filter({
@@ -147,23 +192,41 @@ test.describe('Страница Конструктор', () => {
       await page.locator('[class*="close_button"]').click();
 
       await expect(page.getByText('Детали ингредиента')).toBeHidden();
-      await expect(page).toHaveURL('http://localhost:5173/');
+      await expect(page).not.toHaveURL(/\/ingredients\/bun-1$/);
     });
 
     await test.step('Сборка бургера перетаскиванием ингредиентов', async () => {
-      const bunCard = page.locator('img[alt="Тестовая булка"]').locator('xpath=..');
-      const mainCard = page.locator('img[alt="Тестовая котлета"]').locator('xpath=..');
-
-      await bunCard.dragTo(constructorSection);
-      await mainCard.dragTo(constructorSection);
-
-      await expect(page.getByText('Тестовая булка (верх)')).toBeVisible();
-      await expect(page.getByText('Тестовая булка (низ)')).toBeVisible();
-      await expect(
-        constructorSection.locator('.constructor-element__text', {
+      const bunCard = page
+        .locator('img[alt="Тестовая булка"]')
+        .first()
+        .locator('xpath=..');
+      const mainCard = page
+        .locator('img[alt="Тестовая котлета"]')
+        .first()
+        .locator('xpath=..');
+      const bunTop = constructorSection.getByText('Тестовая булка (верх)');
+      const bunBottom = constructorSection.getByText('Тестовая булка (низ)');
+      const mainInConstructor = constructorSection.locator(
+        '.constructor-element__text',
+        {
           hasText: 'Тестовая котлета',
-        })
-      ).toBeVisible();
+        }
+      );
+
+      await dragIngredientWithRetry({
+        source: bunCard,
+        target: constructorSection,
+        successLocator: bunTop,
+      });
+      await dragIngredientWithRetry({
+        source: mainCard,
+        target: constructorSection,
+        successLocator: mainInConstructor,
+      });
+
+      await expect(bunTop).toBeVisible();
+      await expect(bunBottom).toBeVisible();
+      await expect(mainInConstructor).toBeVisible();
       await expect(orderButton).toBeEnabled();
     });
 

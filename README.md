@@ -11,6 +11,10 @@
 Запуск E2E-тестов:
 `npm run e2e`
 
+При необходимости изменить URL для E2E используйте переменную окружения:
+- Git Bash: `PLAYWRIGHT_BASE_URL=http://localhost:4173 npm run e2e`
+- PowerShell: `$env:PLAYWRIGHT_BASE_URL='http://localhost:4173'; npm run e2e`
+
 ## Процедура создания коммита с проверками
 
 При создании коммита автоматически запускаются проверка линтерами `stylelint`, `eslint` и форматирование `prettier`.

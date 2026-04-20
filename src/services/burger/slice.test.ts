@@ -3,12 +3,14 @@ import { describe, expect, it } from 'vitest';
 import {
   addIngredient,
   burgerSlice,
+  initialState,
   removeIngredient,
   reorderIngredients,
   resetBurger,
   setBun,
 } from './reducer';
 
+import type { IBurgerState } from './reducer';
 import type { TIngredient, TIngredientWithUniqueId } from '@/utils/types';
 
 const createIngredient = (overrides: Partial<TIngredient> = {}): TIngredient => ({
@@ -29,18 +31,15 @@ const createIngredient = (overrides: Partial<TIngredient> = {}): TIngredient => 
 
 describe('burgerSlice reducer', () => {
   it('возвращает initial state', () => {
-    expect(burgerSlice.reducer(undefined, { type: '' })).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    expect(burgerSlice.reducer(undefined, { type: '' })).toEqual(initialState);
   });
 
   it('обрабатывает setBun', () => {
     const bun = createIngredient();
 
     expect(burgerSlice.reducer(undefined, setBun(bun))).toEqual({
+      ...initialState,
       bun,
-      ingredients: [],
     });
   });
 
@@ -63,13 +62,13 @@ describe('burgerSlice reducer', () => {
       ...createIngredient({ _id: 'b', name: 'B', type: 'main' }),
       uniqueId: 'uid-b',
     };
-    const state = {
-      bun: null,
+    const state: IBurgerState = {
+      ...initialState,
       ingredients: [ingredientA, ingredientB],
     };
 
     expect(burgerSlice.reducer(state, removeIngredient('uid-a'))).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [ingredientB],
     });
   });
@@ -87,15 +86,15 @@ describe('burgerSlice reducer', () => {
       ...createIngredient({ _id: 'c', name: 'C', type: 'main' }),
       uniqueId: 'uid-c',
     };
-    const state = {
-      bun: null,
+    const state: IBurgerState = {
+      ...initialState,
       ingredients: [ingredientA, ingredientB, ingredientC],
     };
 
     expect(
       burgerSlice.reducer(state, reorderIngredients({ fromIndex: 0, toIndex: 2 }))
     ).toEqual({
-      bun: null,
+      ...initialState,
       ingredients: [ingredientB, ingredientC, ingredientA],
     });
   });
@@ -112,8 +111,7 @@ describe('burgerSlice reducer', () => {
     };
 
     expect(burgerSlice.reducer(state, resetBurger())).toEqual({
-      bun: null,
-      ingredients: [],
+      ...initialState,
     });
   });
 });

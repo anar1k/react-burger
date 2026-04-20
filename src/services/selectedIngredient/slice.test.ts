@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { selectedIngredientSlice, setSelectedIngredient } from './reducer';
+import { initialState, selectedIngredientSlice, setSelectedIngredient } from './reducer';
 
 import type { TIngredient } from '@/utils/types';
 
@@ -21,15 +21,16 @@ const ingredient: TIngredient = {
 
 describe('selectedIngredientSlice reducer', () => {
   it('возвращает initial state', () => {
-    expect(selectedIngredientSlice.reducer(undefined, { type: '' })).toEqual({
-      ingredient: null,
-    });
+    expect(selectedIngredientSlice.reducer(undefined, { type: '' })).toEqual(
+      initialState
+    );
   });
 
   it('обрабатывает setSelectedIngredient', () => {
     expect(
       selectedIngredientSlice.reducer(undefined, setSelectedIngredient(ingredient))
     ).toEqual({
+      ...initialState,
       ingredient,
     });
   });
