@@ -1,0 +1,5 @@
+.list {
+  max-height: calc(100vh - 280px);
+  padding-right: 8px;
+  overflow: hidden auto;
+}

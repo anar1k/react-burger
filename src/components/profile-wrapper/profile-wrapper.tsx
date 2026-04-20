@@ -1,11 +1,13 @@
 import { useLogoutMutation } from '@/services/auth/api';
 import { clearTokens, getRefreshToken } from '@/utils/api/auth-tokens';
 import { getErrorMessage } from '@/utils/helpers/getErrorMessage';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 import styles from './profile-wrapper.module.css';
 
 export const ProfileWrapper = (): React.JSX.Element => {
+  const location = useLocation();
+  const isOrdersSection = location.pathname.startsWith('/profile/orders');
   const [logout] = useLogoutMutation();
   const navigation = [
     {
@@ -55,9 +57,15 @@ export const ProfileWrapper = (): React.JSX.Element => {
         </div>
 
         <div className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете
-          <br />
-          изменить свои персональные данные
+          {isOrdersSection ? (
+            'В этом разделе вы можете просмотреть свою историю заказов'
+          ) : (
+            <>
+              В этом разделе вы можете
+              <br />
+              изменить свои персональные данные
+            </>
+          )}
         </div>
       </div>
 

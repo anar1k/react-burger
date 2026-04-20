@@ -7,6 +7,15 @@ const RESET_PASSWORD_ALLOWED_KEY = 'resetPasswordAllowed';
 export const getAccessToken = (): string | null =>
   localStorage.getItem(ACCESS_TOKEN_KEY);
 
+/** Токен для query-параметра WebSocket `orders?token=` — только JWT, без префикса Bearer. */
+export const getAccessTokenPlainForWs = (): string | null => {
+  const raw = getAccessToken();
+  if (!raw) return null;
+  const trimmed = raw.trim();
+  const withoutBearer = trimmed.replace(/^Bearer\s+/i, '').trim();
+  return withoutBearer || null;
+};
+
 export const getRefreshToken = (): string | null =>
   localStorage.getItem(REFRESH_TOKEN_KEY);
 
